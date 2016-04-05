@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/learn-co-curriculum/node-js-basic-web-server/issues"
   },
-  "homepage": "https://github.com/learn-co-curriculum/node-js-basic-web-server#readme"
+  "homepage": "https://github.com/learn-co-curriculum/node-js-basic-web-server#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-multi": "^0.9.0"
+  },
+  "dependencies": {
+    "router": "^1.1.4"
+  }
 }
