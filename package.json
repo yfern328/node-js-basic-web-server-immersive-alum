@@ -1,0 +1,25 @@
+{
+  "name": "node-js-basic-web-server",
+  "version": "1.0.0",
+  "description": "A simple node messaging server.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha -R mocha-multi --reporter-options spec=-,json=.results.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:learn-co-curriculum/node-js-basic-web-server.git"
+  },
+  "keywords": [
+    "learn",
+    "node.js",
+    "server"
+  ],
+  "bugs": {
+    "url": "https://github.com/learn-co-curriculum/node-js-basic-web-server/issues"
+  },
+  "homepage": "https://github.com/learn-co-curriculum/node-js-basic-web-server#readme"
+}
