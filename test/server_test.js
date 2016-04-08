@@ -4,9 +4,18 @@ const chai = require('chai');
 const expect = chai.expect;
 const should = chai.should();
 const request = require('supertest');
+const crypto = require('crypto');
 
 const server = require('../server');
 const baseUrl = 'http://localhost:3000';
+const salt = "6X[TU:O(zVTR|qg|SYYD64W:<BqC~V/jHi]yN8Y!uym)+LMD9_p!yRM3EU*u$4Jp";
+
+const decrypt = (encryptedTxt) => {
+  const decipher = crypto.createDecipher('aes-256-ctr', salt);
+  let decrypted = decipher.update(encryptedTxt, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+};
 
 describe('server', () => {
 
@@ -74,6 +83,23 @@ describe('server', () => {
             return;
           }
           let result = JSON.parse(response.text);
+          result.should.be.a('object');
+          result.should.eql({id: 1, message: "This is a test message."});
+          done();
+        });
+    });
+
+    it('Get request to /message/:id?encrypt=true returns the message encyrpted', (done) => {
+      request(baseUrl)
+        .get('/message/1?encrypt=true')
+        .expect(200)
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .end((error, response) => {
+          if (error) {
+            done(error);
+            return;
+          }
+          let result = JSON.parse(decrypt(response.text));
           result.should.be.a('object');
           result.should.eql({id: 1, message: "This is a test message."});
           done();
