@@ -31,11 +31,10 @@ describe('server', () => {
       });
 
       response.on('end', () => {
-        console.log({data:data});
         data.should.equal("Hello, World!");
         done();
       });
- 
+
     });
   });
 
