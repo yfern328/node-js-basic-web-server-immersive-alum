@@ -26,6 +26,11 @@ router.get('/', (request, response) => {
   response.end('Hello, World!');
 });
 
+router.get('/messages', (request, response) => {
+  response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  response.end(JSON.stringify(messages));
+});
+
 router.post('/message', (request, response) => {
   let newMsg;
 

@@ -46,6 +46,23 @@ describe('server', () => {
         });
     });
 
+    it('GET request to /messages returns a list of all the messages', (done) => {
+      request(baseUrl)
+        .get('/messages')
+        .expect(200)
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .end((error, response) => {
+          if (error) {
+            done(error);
+            return;
+          }
+          let result = JSON.parse(response.text);
+          result.should.be.a('Array');
+          result[0].should.eql({id: 1, message: "This is a test message."});
+          done();
+        })
+    });
+
     });
   });
 
