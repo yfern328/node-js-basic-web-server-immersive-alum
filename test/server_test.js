@@ -63,8 +63,22 @@ describe('server', () => {
         })
     });
 
+    it('Get request to /message/:id returns the message matching the id', (done) => {
+      request(baseUrl)
+        .get('/message/1')
+        .expect(200)
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .end((error, response) => {
+          if (error) {
+            done(error);
+            return;
+          }
+          let result = JSON.parse(response.text);
+          result.should.be.a('object');
+          result.should.eql({id: 1, message: "This is a test message."});
+          done();
+        });
     });
-  });
 
   after(() => {
     server.close();

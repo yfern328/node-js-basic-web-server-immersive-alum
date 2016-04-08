@@ -5,7 +5,7 @@ const bodyParser   = require('body-parser');
 const http         = require('http');
 const Router       = require('router');
 
-const router = Router();
+const router = Router({ mergerParams: true });
 
 let messages = [];
 
@@ -29,6 +29,30 @@ router.get('/', (request, response) => {
 router.get('/messages', (request, response) => {
   response.setHeader('Content-Type', 'text/plain; charset=utf-8');
   response.end(JSON.stringify(messages));
+});
+
+router.get('/message/:id', (request, response) => {
+ response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+
+ if (!request.params.id) {
+    response.statusCode = 400;
+    response.statusMessage = "No message id provided.";
+    response.end();
+    return;
+  }
+
+  let found = messages.find((message) => {
+    return message.id == request.params.id;
+  });
+
+  if (!found) {
+    response.statusCode = 404;
+    response.statusMessage = `Unable to find a message with id ${request.params.id}`
+    response.end();
+    return;
+  }
+
+  response.end(JSON.stringify(found));
 });
 
 router.post('/message', (request, response) => {
