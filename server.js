@@ -1,31 +1,22 @@
-var http = require('http');
-var messages = [];
+var finalhandler = require('finalhandler');
+var http         = require('http');
+var Router       = require('router');
 
-var msgCount = 1;
-function Message(message) {
-  this.id = msgCount;
-  this.message = message;
-  msgCount++;
-}
+var router = Router();
+router.get('/', function (req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.end('Hello, World!');
+});
 
-function requestHandler(request, response) {
-  var method = request.method,
-      result;
+this.server = http.createServer(function(req, res) {
+  router(req, res, finalhandler(req, res));
+});
 
-  console.log(request.url);
+exports.listen = function(port) {
+  this.server.listen.apply(this.server, arguments);
+};
 
-  if (method == 'POST') {
-    var newMsg = new Message('hello there');
-    messages.push(newMsg);
-    console.log(newMsg.id);
-    result = newMsg.id.toString();
-  } else {
-    result = JSON.stringify(messages);
-  }
+exports.close = function(callback) {
+  this.server.close(callback);
+};
 
-  response.end(result);
-}
-
-var server = http.createServer(requestHandler);
-
-server.listen(8080);
