@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 const should = chai.should();
-const http = require('http');
+const request = require('supertest');
 
 const server = require('../server');
 const baseUrl = 'http://localhost:3000';
@@ -12,28 +12,20 @@ describe('server', () => {
     server.listen(3000);
   });
 
-  it('should return 200', (done) => {
-    http.get(baseUrl, (response) => {
-      response.statusCode.should.equal(200);
-      done();
-    });
-  });
-
   it('GET request to / responds with "Hello, World!"', (done) => {
-    http.get(baseUrl, (response) => {
-      var data = '';
-
-      // Check status.
-      response.statusCode.should.equal(200);
-
-      response.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      response.on('end', () => {
-        data.should.equal("Hello, World!");
+    request(baseUrl)
+      .get('/')
+      .expect(200)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .end((error, response) => {
+        if (error) {
+          done(error);
+          return;
+        }
+        response.text.should.equal("Hello, World!");
         done();
       });
+    });
 
     });
   });
