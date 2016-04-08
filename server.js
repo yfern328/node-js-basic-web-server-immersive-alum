@@ -1,15 +1,16 @@
-var finalhandler = require('finalhandler');
-var http         = require('http');
-var Router       = require('router');
+const finalhandler = require('finalhandler');
+const http         = require('http');
+const Router       = require('router');
 
-var router = Router();
-router.get('/', function (req, res) {
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.end('Hello, World!');
+const router = Router();
+
+router.get('/', (request, response) => {
+  response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  response.end('Hello, World!');
 });
 
-this.server = http.createServer(function(req, res) {
-  router(req, res, finalhandler(req, res));
+this.server = http.createServer((request, response) => {
+  router(request, response, finalhandler(request, response));
 });
 
 exports.listen = function(port) {
