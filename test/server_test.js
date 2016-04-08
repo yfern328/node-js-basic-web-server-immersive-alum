@@ -1,3 +1,5 @@
+"use strict"; 
+
 const chai = require('chai');
 const expect = chai.expect;
 const should = chai.should();
@@ -25,6 +27,23 @@ describe('server', () => {
         response.text.should.equal("Hello, World!");
         done();
       });
+    });
+
+    it('POST request to /messsage with message data returns message id', (done) => {
+      request(baseUrl)
+        .post('/message')
+        .send({message: "This is a test message."})
+        .expect(200)
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .end((error, response) => {
+          if (error) {
+            done(error);
+            return;
+          }
+          let result = JSON.parse(response.text);
+          result.should.be.a('number');
+          done();
+        });
     });
 
     });
