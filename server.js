@@ -2,8 +2,6 @@
 
 const http         = require('http');
 const finalhandler = require('finalhandler');
-const urlParser    = require('url');
-const querystring  = require('querystring');
 const Router       = require('router');
 
 const router = new Router();
