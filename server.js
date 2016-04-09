@@ -106,15 +106,15 @@ router.post('/message', (request, response) => {
   response.end(JSON.stringify(newMsg.id));
 });
 
-this.server = http.createServer((request, response) => {
+const server = http.createServer((request, response) => {
   router(request, response, finalhandler(request, response));
 });
 
-exports.listen = function(port) {
-  this.server.listen.apply(this.server, arguments);
+exports.listen = function(port, callback) {
+  server.listen(port, callback);
 };
 
 exports.close = function(callback) {
-  this.server.close(callback);
+  server.close(callback);
 };
 
