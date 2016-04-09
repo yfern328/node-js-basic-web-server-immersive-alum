@@ -43,7 +43,7 @@ describe('server', () => {
         .post('/message')
         .send({message: "This is a test message."})
         .expect(200)
-        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
             done(error);
@@ -59,7 +59,7 @@ describe('server', () => {
       request(baseUrl)
         .get('/messages')
         .expect(200)
-        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
             done(error);
@@ -76,7 +76,7 @@ describe('server', () => {
       request(baseUrl)
         .get('/message/1')
         .expect(200)
-        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
             done(error);

@@ -43,9 +43,10 @@ router.get('/messages', (request, response) => {
 
   let result = JSON.stringify(messages);
 
-  response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  response.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   if (params.encrypt) {
+    response.setHeader('Content-Type', 'text/plain; charset=utf-8');
     result = encrypt(result);
   }
 
@@ -57,7 +58,7 @@ router.get('/message/:id', (request, response) => {
       params = querystring.parse(url.query),
       result, found;
 
-  response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  response.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   if (!request.params.id) {
     response.statusCode = 400;
@@ -72,7 +73,7 @@ router.get('/message/:id', (request, response) => {
 
   if (!found) {
     response.statusCode = 404;
-    response.statusMessage = `Unable to find a message with id ${request.params.id}`
+    response.statusMessage = `Unable to find a message with id ${request.params.id}`;
     response.end();
     return;
   }
@@ -80,6 +81,7 @@ router.get('/message/:id', (request, response) => {
   result = JSON.stringify(found);
 
   if (params.encrypt) {
+    response.setHeader('Content-Type', 'text/plain; charset=utf-8');
     result = encrypt(result);
   }
 
@@ -89,7 +91,7 @@ router.get('/message/:id', (request, response) => {
 router.post('/message', (request, response) => {
   let newMsg;
 
-  response.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  response.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   if (!request.body.message) {
     response.statusCode = 400;
