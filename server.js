@@ -5,11 +5,10 @@ const bodyParser   = require('body-parser');
 const http         = require('http');
 const urlParser    = require('url');
 const querystring  = require('querystring');
-const crypto       = require('crypto');
 const Router       = require('router');
+const bcrypt       = require('bcrypt');
 
-const router = Router({ mergerParams: true });
-const salt = "6X[TU:O(zVTR|qg|SYYD64W:<BqC~V/jHi]yN8Y!uym)+LMD9_p!yRM3EU*u$4Jp";
+const router = new Router({ mergerParams: true });
 
 let messages = [];
 let nextId = 1;
@@ -21,13 +20,6 @@ class Message {
     nextId++;
   }
 }
-
-const encrypt = (txtInput) => {
-  const cipher = crypto.createCipher('aes-256-ctr', salt);
-  let encrypted = cipher.update(txtInput, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return encrypted; 
-};
 
 // Use body parser to handle post data.
 router.use(bodyParser.json());
@@ -47,7 +39,12 @@ router.get('/messages', (request, response) => {
 
   if (params.encrypt) {
     response.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    result = encrypt(result);
+    return bcrypt.hash(result, 10, (error, hashed) => {
+      if (error) {
+        throw new Error();
+      }
+      response.end(hashed);
+    });
   }
 
   response.end(result);
@@ -82,7 +79,12 @@ router.get('/message/:id', (request, response) => {
 
   if (params.encrypt) {
     response.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    result = encrypt(result);
+    return bcrypt.hash(result, 10, (error, hashed) => {
+      if (error) {
+        throw new Error();
+      }
+      response.end(hashed);
+    });
   }
 
   response.end(result);
