@@ -22,8 +22,7 @@ describe('server', () => {
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .end((error, response) => {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         response.text.should.equal("Hello, World!");
         done();
@@ -38,8 +37,7 @@ describe('server', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
-            done(error);
-            return;
+            return done(error);
           }
           let result = JSON.parse(response.text);
           result.should.be.a('number');
@@ -54,8 +52,7 @@ describe('server', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
-            done(error);
-            return;
+            return done(error);
           }
           let result = JSON.parse(response.text);
           result.should.be.a('Array');
@@ -71,8 +68,7 @@ describe('server', () => {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .end((error, response) => {
           if (error) {
-            done(error);
-            return;
+            return done(error);
           }
           let result = JSON.parse(response.text);
           result.should.be.a('object');
@@ -112,8 +108,7 @@ describe('server', () => {
         .expect('Content-Type', 'text/plain; charset=utf-8')
         .end((error, response) => {
           if (error) {
-            done(error);
-            return;
+            return done(error);
           }
           bcrypt.compare(
             '[{"id":1,"message":"This is a test message."}]',
