@@ -7,7 +7,7 @@ In this lab, we are going to build a simple node server that can post a new mess
 
 ## Introduction
 
-Imagine you've been hired by a client to build a prototype of a Node-based messaging server. For the moment, they just wants a simple messaging API that they can use to test out various frontend UI/UX designs. The server doesn't need to persist the data (i.e. store it in a permanent database), but they do want the API to have the following capabilities:
+Imagine you've been hired by a client to build a prototype of a Node-based messaging server. For the moment, they just want a simple messaging API that they can use to test out various frontend UI/UX designs. The server doesn't need to persist the data (i.e. store it in a permanent database), but they do want the API to have the following capabilities:
 
 * Message submission
 * Message retrival
@@ -50,11 +50,11 @@ router.get('/', (request, response) => {
 
 So what do we have here? First of all, `const router = new Router()` instantiates our "router." You will encounter this term "router" frequently in the world of web applications. Essentially, a router is the piece of a web application that matches certain url requests to the write pieces of code, sometimes called "business logic", which then are responsible for returning the desired result. 
 
-> Note: In our code we are using a pre-written router module for node. You installed that package in the setup stage of this lab, and it is imported in the `server.js` file with the command: `const Router = require('router')`. There are a great many such router modules; we are using [this one](https://github.com/pillarjs/router), which has been extracted fromt he popular [Express.js](http://expressjs.com/) web server framework for Node. We will be learning about Express later in this unit!
+> Note: In our code we are using a pre-written router module for node. You installed that package in the setup stage of this lab, and it is imported in the `server.js` file with the command: `const Router = require('router')`. There are a great many such router modules; we are using [this one](https://github.com/pillarjs/router), which has been extracted from the popular [Express.js](http://expressjs.com/) web server framework for Node. We will be learning about Express later in this unit!
 
 The code snippet above, then, sets up a "route" from a request to the server root path, i.e. `http://localhost:3000/` to the code that is contained within the function that is passed to the router's `get` method. There's a lot to talk about here actually. 
 
-First, notice that the method passed into `get` (written with the ES6 "fat arrow" syntax) takes two arguments: `request` and `response`. These are very important objects and you will be using them a lot when you work with Node. For now, what you should know is that the `request` object contains information as well as method relating to the "request" that has come in from the client. The `response` object, as you may have guessed, contains information and methods about how the server's response.
+First, notice that the method passed into `get` (written with the ES6 "fat arrow" syntax) takes two arguments: `request` and `response`. These are very important objects and we will be using them a lot when we work with Node. For now, what you should know is that the `request` object contains information as well as method relating to the "request" that has come in from the client. The `response` object, as you may have guessed, contains information and methods about the server's response.
 
 Moving on, do you notice anything familiar about this function that we've passed into the `get` method? Do you recognize this pattern?
 
@@ -80,11 +80,11 @@ Okay, so you got the server to respond: "Hello, World!" Good job! To a large ext
 
 Now that we've built our "Hello World" server, let's start to build out our messaging apparatus. The ability to add messages seems like a good place to start, no? Then we can work on our retrieval pathways.
 
-So what do we need to do? First, of all we need place to store the messages. Let's just store our messages in memory to keep things simple. This will mean that the messages we create won't persist if we shutdown the server, but that's okay for our purposes. To acheive this, let's a define a variable `messages` that will start as an empty list or Array. You can put this somewhere near the top of your `server.js` file:
+So what do we need to do? First, of all we need place to store the messages. Let's just store our messages in memory to keep things simple. This will mean that the messages we create won't persist if we shut down the server, but that's okay for our purposes. To achieve this, let's define a variable `messages` that will start as an empty list or Array. You can put this somewhere near the top of your `server.js` file:
 
 `let messages = [];`
 
-Note, that in the line above we are using the new ES6 variable assignment keyword `let`. You will need to put the compiler into strict mode for this to work, otherwise you'll likely get an error when you run the code.
+Note, that in the line above we are using the new ES6 variable assignment keyword `let`. You will need to put the compiler into strict mode for this to work, otherwise you'll likely get an error when you run the code. (To put the compiler into strict mode, just add `"use strict";` to the top of the file.)
 
 Next let's define a new route for submitting messages. In order to send data to the server, we want to use a different HTTP request "method." For the Hello World server we used a standard GET request, but for sending messages we'll use the POST method. A code stub like this will get us started:
 
@@ -94,17 +94,17 @@ route.post('/message', (request, response) => {
 });
 ```
 
-At this point, our server can catch a POST request to the path `/message`. Great! But how will get our message data into the system? Now, normally you'd probably have a web frontend that submits the data through the browser. As mentioned above, we'll simulate this by using curl. The following command will submit a message to our new path:
+At this point, our server can catch a POST request to the path `/message`. Great! But how will we get our message data into the system? Now, normally you'd probably have a web frontend that submits the data through the browser. As mentioned above, we'll simulate this by using curl. The following command will submit a message to our new path:
 
 ```bash
 curl -X POST http://localhost:3000/message -d '{"id":1,"message":"Our first message."}'
 ```
 
-Okay, so this is how we'll submit data, but how will we read in our route's logic? Here's where we will use the `request` object that is passed to ur callback function as an argument. However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As it's name suggests, this module parses data that the server receives from the request. It then attaches this parsed data to the request object's `body` parameter.
+Okay, so this is how we'll submit data, but how will we read in our route's logic? Here's where we will use the `request` object that is passed to our callback function as an argument. However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As its name suggests, this module parses data that the server receives from the client in the request body. It then attaches this parsed data to the request object's `body` parameter.
 
-The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when proramming in Node. As its name suggests, middleware software that runs in between; that is, it is code that is executed after a request is sent to the server, and before the request is processed by the server itself. 
+The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself. 
 
-![Diagram of middlware]()
+![Diagram of middlware](http://ezmiller.s3.amazonaws.com/public/images/flatiron-imgs/middleware-diagram.png)
 
 In order to run the body-parser middleware, we need to register it with our router, like so:
 
@@ -118,17 +118,17 @@ In order to run the body-parser middleware, we need to register it with our rout
  router.use(bodyParser.json());
 ```
 
-Now that we've got the body-parser in place, we are finally in a position to submit our message to the server. Excited? Good, I hope so. Let's see if you can get those tests to pass by yourself. To get you'll started here are a few hints and things to consider:
+Now that we've got the body-parser in place, we are finally in a position to submit our message to the server. Excited? Good, I hope so. Let's see if you can get those tests to pass by yourself. Here are a few hints and things to consider:
 
 1. Now that our body parser middleware is in place, you can access the data you pass to the server on the request object's body parameter: `request.body`.
 2. Note that unlike our Hello World server, the data we are sending back and forth here is JSON data. That's what our bodyParser is parsing. As such, we'll want to set the headers appropriately.
-3. How will we represent our messages on the server? Each of our messages needs an id, plus a text message. Maybe it's a good idea to create a javascript class? It's also possible that this would "over engineer" the problem. What do you think?
+3. How will we represent our messages on the server? Each of our messages needs an id, plus a text message. Maybe it's a good idea to create a javascript class? It's also possible that this would "over-engineer" the problem. What do you think?
 
 ## Retreiving Messages
 
-Okay, so now you've got aserver that's able to accept a POST request to `/message` and save the supplied message in memory. Wonderful. Now let's teach our server to retrieve messages..
+Okay, so now you've got a server that's able to accept a POST request to `/message` and save the supplied message in memory. Wonderful. Now let's teach our server to retrieve messages.
 
-First, let's tackle the use-case where we just want to get all the messages. We'll use the route `/messages`. You should be able to do this by yourself. When you're done with that we'll move onto the sslightly more complicated scenario in which we'd like the server to return a specific message specified by its id. As you are working on this part, remeber to set the response headers correctly. You will also need to tranform your data into a JSON string before sending it to the server. Google a bit. You should be able to discover how to do this.
+First, let's tackle the use-case where we just want to get all the messages. We'll use the route `/messages`. You should be able to do this by yourself. When you're done with that we'll move onto the slightly more complicated scenario in which we'd like the server to return a specific message specified by its id. As you are working on this part, remeber to set the response headers correctly. You will also need to tranform your data into a JSON string before sending it to the server. Google a bit. You should be able to discover how to do this.
 
 ## Retrieving a Specific Message
 
@@ -136,7 +136,7 @@ Okay, this step is a bit more challenging. Again, we have to deal with some serv
 
 `/message/1`
 
-That's nice an concise, no? Now let's imagine how that form could be generalized. Something like this maybe:
+That's nice and concise, no? Now let's imagine how that form could be generalized. Something like this maybe:
 
 `/message/:id`
 
@@ -159,9 +159,9 @@ Cool, huh? Let's see if you can now carry this one to the finish line on your ow
 
 ## Encryption
 
-Okay, we are mostly don here. But there's one last challenge here. And it's a pretty cool one. For the sake of security, our client wants to be able to ensure users that their messages cannot be interecepted by hackers or other potential hostile parties on the web. 
+Okay, we are mostly done here. But there's one last challenge here. And it's a pretty cool one. For the sake of security, our client wants to be able to ensure users that their messages cannot be interecepted by hackers or other potential hostile parties on the web. 
 
 This might sound immensely complex, but in fact -- thanks to some good node modules plus your cleverness as a developer -- this is eminently achievable! The basic idea is simple. We'll make it possible to set a query parameter on the `/messages` and `message/:id` routes called `encrypt`. When encrypt is set to true, the server will encrypt the messsage string before sending it across the wire back to the client.
 
-The actual encryption will be handled by a tool commonly used to encrypt passwords called [bcrypt](https://github.com/ncb000gt/node.bcrypt.js). Bcrypt has a simple api that takes a string and ecnrypts it. The methods in this api, like our router's `get` and `post` methods, take a callback. So here too you'll be writing asynchronous JS.
+The actual encryption will be handled by a tool commonly used to encrypt passwords called [bcrypt](https://github.com/ncb000gt/node.bcrypt.js). Bcrypt has a simple api that takes a string and encrypts it. The methods in this api, like our router's `get` and `post` methods, take a callback. So here too you'll be writing asynchronous JS.
 
