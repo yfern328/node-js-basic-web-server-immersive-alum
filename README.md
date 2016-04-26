@@ -3,7 +3,7 @@ Build a Basic Web Server
 
 ## Overview
 
-In this lab, we are going to build a simple node server that can post a new message and respond with a list of messages.
+In this lab, we are going to build a simple server in Node.js that can post a new message and respond with a list of messages.
 
 ## Introduction
 
@@ -48,17 +48,17 @@ router.get('/', (request, response) => {
 });
 ```
 
-So what do we have here? First of all, `const router = new Router()` instantiates our "router." You will encounter this term "router" frequently in the world of web applications. Essentially, a router is the piece of a web application that matches certain url requests to the write pieces of code, sometimes called "business logic", which then are responsible for returning the desired result. 
+So what do we have here? First of all, `const router = new Router()` instantiates our "router." You will encounter this term "router" frequently in the world of web applications. Essentially, a router is the piece of a web application that matches certain url requests to the right pieces of code, sometimes called "business logic", which then are responsible for returning the desired result.
 
-> Note: In our code we are using a pre-written router module for node. You installed that package in the setup stage of this lab, and it is imported in the `server.js` file with the command: `const Router = require('router')`. There are a great many such router modules; we are using [this one](https://github.com/pillarjs/router), which has been extracted from the popular [Express.js](http://expressjs.com/) web server framework for Node. We will be learning about Express later in this unit!
+> Note: In our code we are using a pre-written router module for Node. You installed that package in the setup stage of this lab, and it is imported in the `server.js` file with the command: `const Router = require('router')`. There are a great many such router modules; we are using [this one](https://github.com/pillarjs/router), which has been extracted from the popular [Express.js](http://expressjs.com/) web server framework for Node. We will be learning about Express later in this unit!
 
-The code snippet above, then, sets up a "route" from a request to the server root path, i.e. `http://localhost:3000/` to the code that is contained within the function that is passed to the router's `get` method. There's a lot to talk about here actually. 
+The code snippet above, then, sets up a "route" from a request to the server root path, i.e. `http://localhost:3000/` to the code that is contained within the function that is passed to the router's `get` method. There's a lot to talk about here actually.
 
 First, notice that the method passed into `get` (written with the ES6 "fat arrow" syntax) takes two arguments: `request` and `response`. These are very important objects and we will be using them a lot when we work with Node. For now, what you should know is that the `request` object contains information as well as method relating to the "request" that has come in from the client. The `response` object, as you may have guessed, contains information and methods about the server's response.
 
 Moving on, do you notice anything familiar about this function that we've passed into the `get` method? Do you recognize this pattern?
 
-That's right. It's a callback! The asynchronous character of the process may not have been immediately obvious to you, but it's the same idea that was explained in the previous lesson: The server is waiting for a GET request to the path `/`. When will that request come in? No one knows. It will happen at some indeterminate point in the future. And when it does, the `get` method will call the callback function that we supply.
+That's right. It's a callback! The asynchronous character of the process may not have been immediately obvious to you, but it's the same idea that was explained previously: The server is waiting for a GET request to the path `/`. When will that request come in? No one knows. It will happen at some indeterminate point in the future. And when it does, the `get` method will call the callback function that we supply.
 
 Bottom line here: Congratulations, you're about to write some asynchronous JS code with callbacks!
 
@@ -102,7 +102,7 @@ curl -X POST http://localhost:3000/message -d '{"id":1,"message":"Our first mess
 
 Okay, so this is how we'll submit data, but how will we read in our route's logic? Here's where we will use the `request` object that is passed to our callback function as an argument. However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As its name suggests, this module parses data that the server receives from the client in the request body. It then attaches this parsed data to the request object's `body` parameter.
 
-The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself. 
+The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself.
 
 ![Middleware Diagram](http://ezmiller.s3.amazonaws.com/public/images/flatiron-imgs/middleware-diagram.png)
 
@@ -151,7 +151,7 @@ Now we are ready to define our route:
 ```
 router.get('/message/:id', (request, response) => {
   // Now the scope of this callback includes an `id` variable
-  // that contains the id specified in each request. 
+  // that contains the id specified in each request.
 });
 ```
 
@@ -159,9 +159,8 @@ Cool, huh? Let's see if you can now carry this one to the finish line on your ow
 
 ## Encryption
 
-Okay, we are mostly done here. But there's one last challenge here. And it's a pretty cool one. For the sake of security, our client wants to be able to ensure users that their messages cannot be interecepted by hackers or other potential hostile parties on the web. 
+Okay, we are mostly done here. But there's one last challenge here. And it's a pretty cool one. For the sake of security, our client wants to be able to ensure users that their messages cannot be interecepted by hackers or other potential hostile parties on the web.
 
 This might sound immensely complex, but in fact -- thanks to some good node modules plus your cleverness as a developer -- this is eminently achievable! The basic idea is simple. We'll make it possible to set a query parameter on the `/messages` and `message/:id` routes called `encrypt`. When encrypt is set to true, the server will encrypt the messsage string before sending it across the wire back to the client.
 
 The actual encryption will be handled by a tool commonly used to encrypt passwords called [bcrypt](https://github.com/ncb000gt/node.bcrypt.js). Bcrypt has a simple api that takes a string and encrypts it. The methods in this api, like our router's `get` and `post` methods, take a callback. So here too you'll be writing asynchronous JS.
-
