@@ -52,8 +52,7 @@ router.get('/messages', (request, response) => {
 
 router.get('/message/:id', (request, response) => {
   let url    = urlParser.parse(request.url),
-      params = querystring.parse(url.query),
-      result, found;
+      params = querystring.parse(url.query);
 
   response.setHeader('Content-Type', 'application/json; charset=utf-8');
 
@@ -64,7 +63,7 @@ router.get('/message/:id', (request, response) => {
     return;
   }
 
-  found = messages.find((message) => {
+  const found = messages.find((message) => {
     return message.id == request.params.id;
   });
 
@@ -75,7 +74,7 @@ router.get('/message/:id', (request, response) => {
     return;
   }
 
-  result = JSON.stringify(found);
+  const result = JSON.stringify(found);
 
   if (params.encrypt) {
     response.setHeader('Content-Type', 'text/plain; charset=utf-8');
