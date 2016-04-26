@@ -104,7 +104,7 @@ Okay, so this is how we'll submit data, but how will we read in our route's logi
 
 The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself. 
 
-![Diagram of middlware](http://ezmiller.s3.amazonaws.com/public/images/flatiron-imgs/middleware-diagram.png)
+![Middleware Diagram](http://ezmiller.s3.amazonaws.com/public/images/flatiron-imgs/middleware-diagram.png)
 
 In order to run the body-parser middleware, we need to register it with our router, like so:
 
