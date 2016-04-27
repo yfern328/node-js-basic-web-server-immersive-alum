@@ -2,7 +2,7 @@
   "name": "node-js-basic-web-server",
   "version": "1.0.0",
   "description": "A simple node messaging server.",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },
@@ -21,5 +21,17 @@
   "bugs": {
     "url": "https://github.com/learn-co-curriculum/node-js-basic-web-server/issues"
   },
-  "homepage": "https://github.com/learn-co-curriculum/node-js-basic-web-server#readme"
+  "homepage": "https://github.com/learn-co-curriculum/node-js-basic-web-server#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-multi": "^0.9.0",
+    "supertest": "^1.2.0"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.15.0",
+    "finalhandler": "^0.4.1",
+    "router": "^1.1.4"
+  }
 }
