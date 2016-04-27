@@ -33,7 +33,7 @@ Now we need to install the other dependencies. You should be familiar with this 
 
 Now, as tradition demands, we should set up a "Hello, World" server don't you think? This will help introduce you to the basic pattern that we will use throughout the lab in order to build our server. As you may have noticed already, there is a test written for this use case, and naturally it is failing at the moment:
 
-![](http://ezmiller.s3.amazonaws.com/public/flatiron-imgs/hello_world_test.png)
+![](https://curriculum-content.s3.amazonaws.com/node-js/hello_world_test.png)
 
 Because tests serve as a spec for the code we need to write (this is why they are so helpful!), we can see from the title of the test what it is we need to do: "GET request to / respond with 'Hello, World!'. We need to write code such that our server can accept a request of method "GET" to the root path `/` and then respond with a "Hello, World!" This shouldn't be too hard!
 
@@ -104,7 +104,7 @@ Okay, so this is how we'll submit data, but how will we read in our route's logi
 
 The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself.
 
-![Middleware Diagram](http://ezmiller.s3.amazonaws.com/public/images/flatiron-imgs/middleware-diagram.png)
+![Middleware Diagram](https://curriculum-content.s3.amazonaws.com/node-js/middleware-diagram.png)
 
 In order to run the body-parser middleware, we need to register it with our router, like so:
 
@@ -128,7 +128,7 @@ Now that we've got the body-parser in place, we are finally in a position to sub
 
 Okay, so now you've got a server that's able to accept a POST request to `/message` and save the supplied message in memory. Wonderful. Now let's teach our server to retrieve messages.
 
-First, let's tackle the use-case where we just want to get all the messages. We'll use the route `/messages`. You should be able to do this by yourself. When you're done with that we'll move onto the slightly more complicated scenario in which we'd like the server to return a specific message specified by its id. As you are working on this part, remeber to set the response headers correctly. You will also need to tranform your data into a JSON string before sending it to the server. Google a bit. You should be able to discover how to do this.
+First, let's tackle the use-case where we just want to get all the messages. We'll use the route `/messages`. You should be able to do this by yourself. When you're done with that we'll move onto the slightly more complicated scenario in which we'd like the server to return a specific message specified by its id. As you are working on this part, remeber to set the response headers correctly. You will also need to transform your data into a JSON string before sending it to the server. Google a bit. You should be able to discover how to do this.
 
 ## Retrieving a Specific Message
 
