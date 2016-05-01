@@ -102,7 +102,7 @@ curl -X POST http://localhost:3000/message -d '{"id":1,"message":"Our first mess
 
 Okay, so this is how we'll submit data, but how will we read in our route's logic? Here's where we will use the `request` object that is passed to our callback function as an argument. However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As its name suggests, this module parses data that the server receives from the client in the request body. It then attaches this parsed data to the request object's `body` parameter.
 
-The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs in between; that is, it is code that, in this case, is executed after a request is sent to the server, and before the request is processed by the server itself.
+The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs *in between*; that is, it is code that, in this case, is executed after a request is sent to the server, and before the server sends its response.
 
 ![Middleware Diagram](https://curriculum-content.s3.amazonaws.com/node-js/middleware-diagram.png)
 
