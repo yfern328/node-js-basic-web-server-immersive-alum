@@ -5,8 +5,7 @@ const expect = require('chai').expect;
   it('has the correct dependencies', () => {
     expect(Object.keys(packageJson.dependencies)).to.include.members([
       'router',
-      'finalhandler',
-      'bcrypt'
+      'finalhandler'
     ]);
   });
 
