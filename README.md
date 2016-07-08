@@ -97,10 +97,18 @@ route.post('/message', (request, response) => {
 At this point, our server can catch a POST request to the path `/message`. Great! But how will we get our message data into the system? Now, normally you'd probably have a web frontend that submits the data through the browser. As mentioned above, we'll simulate this by using curl. The following command will submit a message to our new path:
 
 ```bash
-curl -X POST http://localhost:3000/message -d '{"id":1,"message":"Our first message."}'
+curl -X POST -H "content-type: application/json" http://localhost:3000/message -d '{"id":1,"message":"Our first message."}'
 ```
 
-Okay, so this is how we'll submit data, but how will we read in our route's logic? Here's where we will use the `request` object that is passed to our callback function as an argument. However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As its name suggests, this module parses data that the server receives from the client in the request body. It then attaches this parsed data to the request object's `body` parameter.
+Okay, so this is how we'll submit data, but how will we read in our route's 
+logic? Here's where we will use the `request` object that is passed to our 
+callback function as an argument. We also need to tell the server what is 
+the _content type_ of the data that we're sending. We do this using a 
+header called, funnily enough, "Content-Type". With `curl`, we can pass a 
+header like so: `-H "content-type: application/json"`. That way, the server 
+knows that we're sending JSON data. 
+
+However, although this object contains a lot of information about the request being made to the server, by default it does not contain the data that we've sent across in our curl request in a way that is easily accessed. To make things a bit easier, we'll use another Express module called [body-parser](https://github.com/expressjs/body-parser). As its name suggests, this module parses data that the server receives from the client in the request body. It then attaches this parsed data to the request object's `body` parameter.
 
 The body-parser is also a special kind of module known as "middleware." You'll be using middleware frequently when programming in Node. As its name suggests, middleware is software that runs *in between*; that is, it is code that, in this case, is executed after a request is sent to the server, and before the server sends its response.
 
