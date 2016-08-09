@@ -80,7 +80,7 @@ Okay, so you got the server to respond: "Hello, World!" Good job! To a large ext
 
 Now that we've built our "Hello World" server, let's start to build out our messaging apparatus. The ability to add messages seems like a good place to start, no? Then we can work on our retrieval pathways.
 
-So what do we need to do? First, of all we need place to store the messages. Let's just store our messages in memory to keep things simple. This will mean that the messages we create won't persist if we shut down the server, but that's okay for our purposes. To achieve this, let's define a variable `messages` that will start as an empty list or Array. You can put this somewhere near the top of your `server.js` file:
+So what do we need to do? First of all, we need a place to store the messages. Let's just store our messages in memory to keep things simple. This will mean that the messages we create won't persist if we shut down the server, but that's okay for our purposes. To achieve this, let's define a variable `messages` that will start as an empty list or Array. You can put this somewhere near the top of your `server.js` file:
 
 `let messages = [];`
 
@@ -172,3 +172,5 @@ Okay, we are mostly done here. But there's one last challenge here. And it's a p
 This might sound immensely complex, but in fact -- thanks to some good node modules plus your cleverness as a developer -- this is eminently achievable! The basic idea is simple. We'll make it possible to set a query parameter on the `/messages` and `message/:id` routes called `encrypt`. When encrypt is set to true, the server will encrypt the messsage string before sending it across the wire back to the client.
 
 The actual encryption will be handled by a tool commonly used to encrypt passwords called [bcrypt](https://github.com/ncb000gt/node.bcrypt.js). Bcrypt has a simple api that takes a string and encrypts it. The methods in this api, like our router's `get` and `post` methods, take a callback. So here too you'll be writing asynchronous JS.
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/node-js-basic-web-server'>Building a Basic Web Server</a> on Learn.co and start learning to code for free.</p>
